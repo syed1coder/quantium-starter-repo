@@ -1,25 +1,34 @@
 import pandas as pd
-import plotly.express as px
 import dash
 from dash import dcc, html
+import plotly.express as px
 
-# ✅ Load the processed data
+# Load processed data
 df = pd.read_csv("data/processed_data.csv")
 
-# ✅ Create the Dash app
+# Convert date column to datetime format
+df["date"] = pd.to_datetime(df["date"])
+
+# Initialize Dash app
 app = dash.Dash(__name__)
 
-# ✅ Create the figure (using 'sales' instead of 'price')
-figure = px.line(df, x="date", y="sales", color="region", title="Total Sales Over Time")
+# Layout of the Dash app
+app.layout = html.Div([
+    html.H1("Soul Foods: Pink Morsel Sales Analysis", style={"text-align": "center"}),
 
-# ✅ Define the layout
-app.layout = html.Div(children=[
-    html.H1(children="Sales Dashboard", style={"textAlign": "center"}),
+    html.H3("Sales Trend Before & After Price Increase (15th Jan 2021)", style={"text-align": "center"}),
 
-    dcc.Graph(id="sales-graph", figure=figure),
+    dcc.Graph(
+        id="sales-line-chart",
+        figure=px.line(
+            df, x="date", y="sales",
+            title="Total Sales Over Time",
+            labels={"date": "Date", "sales": "Total Sales"},
+            markers=True
+        ).add_vline(x="2021-01-15", line_dash="dash", line_color="red")
+    ),
 ])
 
-# ✅ Run the app
+# Run the app
 if __name__ == "__main__":
-    print("Starting the Dash app...")
     app.run_server(debug=True)
