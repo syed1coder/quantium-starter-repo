@@ -34,10 +34,9 @@ visualization = dcc.Graph(id="visualization", figure=generate_figure(data))
 header = html.H1(
     "Quantium Sales Dashboard",
     id="header",
-    style={"background-color": COLORS["secondary"], "color": COLORS["font"], "border-radius": "20px"}
+    style={"backgroundColor": COLORS["secondary"], "color": COLORS["font"], "borderRadius": "20px"}
 )
 
-# Region filter dropdown
 region_picker = dcc.Dropdown(
     options=[
         {"label": "North", "value": "north"},
@@ -64,7 +63,7 @@ dash_app.layout = html.Div([
     header,
     visualization,
     region_picker
-], style={"textAlign": "center", "background-color": COLORS["primary"], "border-radius": "20px"})
+], style={"textAlign": "center", "backgroundColor": COLORS["primary"], "borderRadius": "20px"})
 
 # Run app
 if __name__ == "__main__":
